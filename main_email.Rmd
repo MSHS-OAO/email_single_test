@@ -11,7 +11,7 @@ suppressMessages({
   library(blastula)
   library(pool)
   # library(xlsx)
-  library(assertr)
+  # library(assertr)
   library(readxl)
   library(writexl)
   library(plyr)

@@ -406,35 +406,6 @@
         "Built": "R 4.2.1; x86_64-pc-linux-gnu; 2022-10-03 16:08:47 UTC; unix"
       }
     },
-    "assertr": {
-      "Source": "CRAN",
-      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2022-10-04",
-      "description": {
-        "Package": "assertr",
-        "Type": "Package",
-        "Title": "Assertive Programming for R Analysis Pipelines",
-        "Version": "3.0.0",
-        "Authors@R": "person(\"Tony\", \"Fischetti\",\n              email=\"tony.fischetti@gmail.com\",\n              role = c(\"aut\", \"cre\"))",
-        "Description": "Provides functionality to assert conditions\n    that have to be met so that errors in data used in\n    analysis pipelines can fail quickly. Similar to\n    'stopifnot()' but more powerful, friendly, and easier\n    for use in pipelines.",
-        "URL": "https://docs.ropensci.org/assertr/ (website)\nhttps://github.com/ropensci/assertr",
-        "BugReports": "https://github.com/ropensci/assertr/issues",
-        "License": "MIT + file LICENSE",
-        "ByteCompile": "TRUE",
-        "Depends": "R (>= 3.1.0)",
-        "Imports": "dplyr (>= 0.7.0), MASS, methods, stats, utils, rlang (>=\n0.3.0)",
-        "Suggests": "knitr, testthat, magrittr, rmarkdown, tibble, plyr",
-        "VignetteBuilder": "knitr",
-        "RoxygenNote": "7.2.1",
-        "Encoding": "UTF-8",
-        "NeedsCompilation": "no",
-        "Packaged": "2022-11-05 22:49:05 UTC; tony",
-        "Author": "Tony Fischetti [aut, cre]",
-        "Maintainer": "Tony Fischetti <tony.fischetti@gmail.com>",
-        "Repository": "CRAN",
-        "Date/Publication": "2022-11-05 23:10:02 UTC",
-        "Built": "R 4.2.1; ; 2022-12-14 17:17:10 UTC; unix"
-      }
-    },
     "assertthat": {
       "Source": "CRAN",
       "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2022-10-04",
@@ -5436,7 +5407,7 @@
       "checksum": "7867c79ed9cb753721b247029a4f0629"
     },
     "main_email.Rmd": {
-      "checksum": "d047f1cad3a2906a480b040af0fdf961"
+      "checksum": "aaf56be1138393f4f2ba61709fefc334"
     }
   },
   "users": null
