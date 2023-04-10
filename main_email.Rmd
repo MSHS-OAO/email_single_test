@@ -1,0 +1,994 @@
+---
+title: "This is a test Email"
+output: blastula::blastula_email
+date: "2023-04-10"
+---
+
+Hello this is a test email from Rconnect
+
+```{r echo = FALSE}
+suppressMessages({
+  library(blastula)
+  library(pool)
+  # library(xlsx)
+  library(assertr)
+  library(readxl)
+  library(writexl)
+  library(plyr)
+  library(dplyr)
+  library(data.table)
+  library(zoo)
+  library(shiny)
+  library(shinydashboard)
+  library(shinydashboardPlus)
+  library(shinyWidgets)
+  library(htmlwidgets)
+  library(lubridate)
+  #library(tcltk)
+  library(tidyverse)
+  library(plotly)
+  library(knitr)
+  library(kableExtra)
+  library(leaflet)
+  library(grid)
+  library(gridExtra)
+  #library(eeptools)
+  library(ggQC)
+  library(utils)
+  library(scales)
+  library(chron)
+  library(bupaR)
+  library(shiny)
+  library(DT)
+  library(DiagrammeR)
+  library(shinyalert)
+  library(edeaR)
+  library(processmapR)
+  library(processmonitR)
+  library(processanimateR)
+  library(tidyr)
+  library(lubridate)
+  library(RColorBrewer)
+  library(DiagrammeR)
+  library(ggplot2)
+  library(leaflet)
+  library(readr)
+  library(highcharter)
+  library(ggforce) # for 'geom_arc_bar'
+  library(packcircles) # for packed circle graph
+  library(viridis)
+  library(ggiraph)
+  library(treemapify)
+  library(treemap)
+  library(broom)
+  library(extrafont)
+  library(tis) # for US holidays
+  library(vroom)
+  library(openxlsx)
+  library(sjmisc)
+  library(tools)
+  library(here)
+  library(shinyBS)
+  library(shinyscreenshot)
+  library(fasttime)
+  library(shinycssloaders)
+  library(fontawesome)
+  library(rhandsontable)
+  library(janitor)
+  library(stringr)
+  library(glue)
+  library(magrittr)
+  library(shinyjs)
+  library(DBI)
+  library(odbc)
+  #library(reshape2)
+})
+source("Functions/mdf_from_db.R")
+source("Functions/get_budget_data.R")
+dsn <- "OAO Cloud DB Production"
+conn <- dbConnect(odbc(), dsn)
+high_level_order <- c("Premier", "Budget", "Operational", "Patient Experience")
+sites_inc <- c("MSB","MSBI","MSH","MSM","MSQ","MSW","NYEE")
+
+target_mapping <- tbl(conn, "BSC_TARGET_STATUS") %>% collect() %>%
+                  rename(Service = SERVICE,
+                         Site = SITE,
+                         Metric_Group = METRIC_GROUP,
+                         Metric_Name = METRIC_NAME,
+                         Metric_Name_Submitted = METRIC_NAME_SUBMITTED,
+                         Target = TARGET,
+                         Green_Status = GREEN_STATUS,
+                         Yellow_Status = YELLOW_STATUS,
+                         Red_Status = RED_STATUS,
+                         Green_Start = GREEN_START,
+                         Green_End = GREEN_END,
+                         Yellow_Start = YELLOW_START,
+                         Yellow_End = YELLOW_END,
+                         Red_Start = RED_START,
+                         Red_End = RED_END)
+
+metric_mapping_database <- tbl(conn, "BSC_MAPPING_TABLE") %>% collect() %>%
+                            rename(Service = SERVICE,
+                                   General_Group = GENERAL_GROUP,
+                                   Metric_Group = METRIC_GROUP,
+                                   Metric_Name_Summary = METRIC_NAME_SUMMARY,
+                                   Metric_Name = METRIC_NAME,
+                                   Metric_Name_Submitted = METRIC_NAME_SUBMITTED,
+                                   Metric_Unit = METRIC_UNIT,
+                                   Reporting_Tab = REPORTING_TAB,
+                                   Display_Order = DISPLAY_ORDER
+                                   )
+
+metric_mapping_summary_site <- metric_mapping_database %>%
+  filter(Reporting_Tab %in% "Summary and Site") %>%
+  select(-Reporting_Tab) %>%
+  mutate(General_Group = factor(General_Group,
+                                levels = high_level_order,
+                                ordered = TRUE)) %>%
+  arrange(Service, General_Group, Display_Order) %>%
+  mutate(General_Group = as.character(General_Group))
+
+target_mapping_analysis <- target_mapping %>%
+  select(-contains("Status")) %>%
+  filter(!(Target %in% c("Budget"))) %>%
+  mutate_at(vars(contains(c("Target", "_Start", "_End"))), as.numeric) %>%
+  distinct()
+
+
+dbDisconnect(conn)
+
+budget_to_actual_summary_table_metrics <- c("Budget to Actual Variance - Non Labor (Monthly)",
+                                            "Budget to Actual Variance - Total (Monthly)",
+                                            "Budget to Actual Variance - Labor (Monthly)",
+                                            "Budget to Actual Variance - Non Labor (YTD)",
+                                            "Budget to Actual Variance - Total (YTD)",
+                                            "Budget to Actual Variance - Labor (YTD)",
+                                            "Budget_Total (Monthly)",
+                                            "Budget_Total (YTD)")
+```
+
+```{r echo = FALSE}
+
+service_input = "Engineering"
+month_input <- "02-2023"
+
+ metrics_final_df <- mdf_from_db(service_input, month_input) 
+      
+
+
+      # Code Starts ---------------------------------------------------------------------------------     
+      summary_tab_metrics <- metric_mapping_summary_site %>%
+        filter(Service == service_input) %>%
+        select(-General_Group, -Display_Order)
+      
+      summary_metric_group_order <- unique(summary_tab_metrics$Metric_Group)
+      
+      summary_metric_name_order <- unique(summary_tab_metrics$Metric_Name_Summary)
+      
+      # # Target mappings using original structure
+      status_section_metrics <- target_mapping_analysis %>%
+        filter(Service %in% service_input) %>%
+        select(Service, Metric_Group, Metric_Name) %>%
+        distinct()
+      
+      # Subset target mapping to select Targets and Status Definitions for selected service line
+      metric_targets_status <- target_mapping_analysis %>%
+        filter(Service == service_input)
+      
+      # Variable setting
+      current_period <- as.Date(fast_strptime(month_input, "%m-%Y"), "%Y-%m-%d")
+      fiscal_year <- format(current_period,  "%Y")
+      
+      # # Filter data by service specific metrics
+      data <- left_join(summary_tab_metrics, metrics_final_df,
+                        by = c("Service",
+                               "Metric_Group",
+                               "Metric_Name"))
+      
+      # Crosswalk data with metric targets and status definitions
+      data <- left_join(data,
+                        metric_targets_status,
+                        by = c("Service",
+                               "Site",
+                               "Metric_Group",
+                               "Metric_Name",
+                               "Metric_Name_Submitted"))
+      data <- data %>%
+        # Determine status based on status definitions
+        mutate(Status = ifelse(is.na(Target), NA,
+                               ifelse(between(value_rounded,
+                                              Green_Start,
+                                              Green_End),
+                                      "Green",
+                                      ifelse(between(value_rounded,
+                                                     Yellow_Start,
+                                                     Yellow_End),
+                                             "Yellow",
+                                             ifelse(between(value_rounded,
+                                                            Red_Start,
+                                                            Red_End),
+                                                    "Red", NA))))) %>%
+        # Filter on selected reporting period
+        filter(Reporting_Month_Ref <= current_period)
+      # Data Period Filtering
+      period_filter <- data %>% 
+        group_by(Metric_Group,
+                 Metric_Name_Summary,
+                 Metric_Name,
+                 Reporting_Month_Ref,
+                 Premier_Reporting_Period) %>% 
+        #distinct() %>%
+        summarise(total = n()) %>%                                                            #
+        arrange(Metric_Group, Metric_Name_Summary,
+                Metric_Name, desc(Reporting_Month_Ref)) %>%
+        group_by(Metric_Group, Metric_Name_Summary, Metric_Name) %>%
+        mutate(id = row_number())
+
+      # Current Period Table -----------------
+      current_summary_data <- left_join((period_filter %>% filter(id == 1)),
+                                        data,
+                                        by = c("Metric_Group",
+                                               "Metric_Name_Summary",
+                                               "Metric_Name",
+                                               "Reporting_Month_Ref",
+                                               "Premier_Reporting_Period"))%>% 
+        mutate(across('Metric_Name_Submitted', str_replace, "\\(Monthly\\)", ''),
+               Metric_Name_Submitted = str_trim(Metric_Name_Submitted))  #Take all most recent data (id = 1) and merge with all data 
+
+      current_summary <- current_summary_data %>%
+        mutate(`Current Period` = ifelse(str_detect(Premier_Reporting_Period, "/"), 
+                                         paste0("Rep. Pd. Ending ",
+                                                Premier_Reporting_Period),
+                                         Premier_Reporting_Period))  ## Create Current Period column if it's premier say when it ends
+      
+      current_summary <- current_summary[, c("Metric_Group",
+                                             "Metric_Name_Summary",
+                                             "Current Period",
+                                             "Site",
+                                             "value_rounded",
+                                             "Metric_Unit")]
+      
+      # Remove any duplicates
+      # Should we fix the code so there are no duplicates anyway?
+      current_summary <- unique(current_summary)
+      
+      # Think about renaming columns at the end
+      current_summary <- current_summary %>%
+        mutate(Section = "Metrics") %>%
+        relocate(Section) %>%
+        ungroup() %>%
+        select(-Metric_Group) %>%
+        pivot_wider(names_from = Site, values_from = value_rounded)
+
+      # Identify any sites missing for the summary and add them with NA values
+      missing_sites <- setdiff(sites_inc, names(current_summary))
+      current_summary[missing_sites] <- NA
+      
+      min_month <- as.Date(paste0(month_input, "-01"), "%m-%Y-%d") %m-% months(12)
+      
+      format <- "YYYY-MM-DD HH24:MI:SS"
+      
+      summary_tab_metrics_budget <- summary_tab_metrics %>% 
+        mutate(across('Metric_Name_Submitted', str_replace, "\\(Monthly\\)", ''),
+               Metric_Name_Submitted = str_trim(Metric_Name_Submitted))
+      
+      budget_data_repo <- get_budget_data(service = service_input,month_input)
+      
+      month_selected_format <- as.Date(paste0(month_input, "-01"), format = "%m-%Y-%d")
+      if (service_input %in% unique(budget_data_repo$Service) & month_selected_format >= as.Date("2022-01-01")) {
+        month_in_repo <- unique(format(budget_data_repo$Month, "%Y-%m-%d"))
+        month_selected <- as.Date(paste0(month_input, "-01"), format = "%m-%Y-%d")
+        budget_metrics <- summary_tab_metrics %>% filter(Metric_Group == "Budget to Actual") %>%
+          mutate(Metric_Name_Submitted = str_sub(Metric_Name_Submitted,end = -10),
+                 Metric_Name_Submitted = str_trim(Metric_Name_Submitted))
+        budget_metrics <- unique(budget_metrics$Metric_Name_Submitted)
+        
+        
+        if (as.character(month_selected )%in% month_in_repo) {
+          ytd_budget <- budget_data_repo %>% ungroup() %>% filter(Service %in% service_input, Month == month_selected, Metric_Name_Submitted %in% budget_metrics)
+        } else {
+          ytd_budget <- budget_data_repo %>% ungroup() %>% filter(Service %in% service_input, Month == max(Month), Metric_Name_Submitted %in% budget_metrics)
+        }
+        
+        
+        #ytd_budget <- budget_data_repo %>% ungroup() %>% filter(Service %in% service_input, Month == month_selected, Metric_Name_Submitted %in% budget_metrics)
+        
+        ytd_join <- left_join(ytd_budget, summary_tab_metrics_budget)
+        ytd_join <- ytd_join %>% select(-Service, -Metric_Unit, -Value, - Metric_Name_Submitted) %>% rename(value_rounded = Value_ytd)
+        # ytd_join <- ytd_join %>% select(-Metric_Unit, -Value, - Metric_Name_Submitted) %>% rename(value_rounded = Value_ytd)
+        
+        
+        month_in_data <- unique(format(ytd_join$Month,"%b"))
+        
+        if(month_in_data != "Jan"){
+          month_in_data <- unique(format(ytd_join$Month, "%b %Y"))
+          fytd_name <- paste0("Jan - ", month_in_data, " Total")
+        }else {
+          fytd_name <- paste0(unique(format(ytd_join$Month, "%b %Y")), " Total")
+        }
+        
+        ytd_join$Month <- fytd_name
+        ytd_join <- ytd_join %>% rename(`Fiscal Year to Date` = Month)
+        
+      } else{
+        ytd_join <- NULL
+      }
+      
+      
+      if(!is.null(ytd_join)){
+        # FYTD Period Filter 
+        fytd_period <- period_filter %>%        #Get all data from YTD
+          # Remove monthly Patient Experience data from YTD sections since there is separate YTD data for this
+          filter(!(Metric_Group %in% c("Patient Experience"))) %>%
+          group_by(Metric_Group, Metric_Name_Summary, Metric_Name) %>%
+          #filter(total == max(total)) %>%
+          #filter(format(Reporting_Month_Ref, "%Y",) == fiscal_year) %>%
+          filter(format(Reporting_Month_Ref, "%Y",) == max(format(Reporting_Month_Ref, "%Y"))) %>%
+          group_by(Metric_Group, Metric_Name_Summary, Metric_Name) %>%
+          mutate(`Fiscal Year to Date` = ifelse(str_detect(Premier_Reporting_Period, "/"), 
+                                                paste0("FYTD Ending ", Premier_Reporting_Period[which.min(id)]),
+                                                ifelse(which.max(id) == 1,
+                                                       Premier_Reporting_Period[which.min(id)],
+                                                       paste0(substr(Premier_Reporting_Period[which.max(id)], 1, 3), " - ", 
+                                                              Premier_Reporting_Period[which.min(id)]))))
+      } else{
+        # FYTD Period Filter 
+        fytd_period <- period_filter %>%        #Get all data from YTD
+          # Remove monthly Patient Experience data from YTD sections since there is separate YTD data for this
+          filter(!(Metric_Group %in% c("Patient Experience"))) %>%
+          group_by(Metric_Group, Metric_Name_Summary, Metric_Name) %>%
+          #filter(total == max(total)) %>%
+          #filter(format(Reporting_Month_Ref, "%Y",) == fiscal_year) %>%
+          filter(format(Reporting_Month_Ref, "%Y",) == max(format(Reporting_Month_Ref, "%Y"))) %>%
+          group_by(Metric_Group, Metric_Name_Summary, Metric_Name) %>%
+          mutate(`Fiscal Year to Date` = ifelse(str_detect(Premier_Reporting_Period, "/"), 
+                                                paste0("FYTD Ending ", Premier_Reporting_Period[which.min(id)]),
+                                                ifelse(which.max(id) == 1,
+                                                       Premier_Reporting_Period[which.min(id)],
+                                                       paste0(substr(Premier_Reporting_Period[which.max(id)], 1, 3), " - ", 
+                                                              Premier_Reporting_Period[which.min(id)]))))
+        
+      }
+      
+      
+      
+      # FYTD Summary Table - for total
+      fytd_summary_all <- left_join(fytd_period,
+                                    data,
+                                    by = c("Metric_Group",
+                                           "Metric_Name_Summary",
+                                           "Metric_Name",
+                                           "Reporting_Month_Ref",
+                                           "Premier_Reporting_Period"),
+                                    all = TRUE)
+      
+      fytd_summary_total <- fytd_summary_all %>%
+        # Metrics that need to be summarized by sum (total)
+        filter(str_detect(Metric_Name_Summary,
+                          "(Budget to Actual)|(Total Revenue to Budget Variance)")) %>%
+        mutate(`Fiscal Year to Date` = paste(`Fiscal Year to Date`," Total")) %>%
+        group_by(Site, Metric_Group, Metric_Name_Summary, Metric_Name, `Fiscal Year to Date`) %>%
+        summarise(value_rounded = round(sum(value_rounded, na.rm = TRUE))) %>%
+        ungroup()
+      
+      # FYTD Summary Table - for Patient Experience
+      # fytd_press_ganey <- reformat_pg_fytd(press_ganey_data)
+      #pt_exp_data <- metrics_final_df %>% filter(Metric_Group == "Patient Experience")
+      conn <- dbConnect(odbc(), dsn)
+      pt_exp_data <- tbl(conn, "BSC_PATIENT_EXPERIENCE_REPO") %>% 
+        rename(Service = SERVICE,
+               Site = SITE,
+               Question_Clean = QUESTION_CLEAN,
+               ReportingType = REPORTINGTYPE,
+               Reporting_Date_Start = REPORTING_DATE_START,
+               Reporting_Date_End = REPORTING_DATE_END,
+               Site_Mean = SITE_MEAN,
+               Site_N = SITE_N,
+               All_PG_Database_Mean = ALL_PG_DATABASE_MEAN,
+               All_PG_Database_N = ALL_PG_DATABASE_N,
+               All_PG_Database_Rank = ALL_PG_DATABASE_RANK) %>%
+        select(-UPDATED_USER, -UPDATED_TIME) %>%
+        collect()
+      pt_exp_data <- pt_exp_data %>%
+        mutate(Reporting_Date_Start = as.Date(Reporting_Date_Start),
+               Reporting_Date_End = as.Date(Reporting_Date_End)) %>%
+        filter(!(Site %in% "All"))
+      dbDisconnect(conn)
+      
+      if (service_input %in% unique(pt_exp_data$Service)) {
+        
+        pt_exp_ytd <- pt_exp_data %>%
+          # Add logic to include Jan data in YTD data
+          mutate(ReportingType = ifelse(month(Reporting_Date_Start) == 1 &
+                                          month(Reporting_Date_End) == 1 &
+                                          year(Reporting_Date_Start) == year(Reporting_Date_End),
+                                        "YTD", ReportingType)) %>%
+          # Filter on YTD data and selected service
+          filter(ReportingType %in% "YTD" &
+                   Service %in% service_input) %>%
+          mutate(Reporting_Month_Ref = floor_date(Reporting_Date_End,
+                                                  unit = "month")) %>%
+          filter(Reporting_Month_Ref <= current_period)
+        
+        # Patient Experience mapping for metrics
+        pt_exp_mapping_simple <- pt_exp_mapping %>%
+          select(-Raw_Pt_Exp_Service, -Questions)
+        
+        # Crosswalk Patient Experience YTD data with mapping
+        pt_exp_ytd <- left_join(pt_exp_ytd,
+                                pt_exp_mapping_simple,
+                                by = c("Service" = "Service",
+                                       "Question_Clean" = "Question_Clean"))
+        
+        # Begin reformatting Patient Experience YTD data
+        pt_exp_ytd_reformat <- pt_exp_ytd %>%
+          # Convert to longer format
+          pivot_longer(cols = c(contains("Site_"),
+                                contains("All_PG_Database_")),
+                       names_to = "Metric") %>%
+          # Update metric names
+          mutate(Metric_Name_Submitted = ifelse(Metric %in% "Site_Mean",
+                                                paste0(Question_Clean, " - Score"),
+                                                ifelse(Metric %in% "Site_N" & Incl_N,
+                                                       paste0(Question_Clean, " - N"),
+                                                       ifelse(Metric %in% "All_PG_Database_Rank" &
+                                                                Incl_AllHosp_Rank,
+                                                              "Rank - All Hospitals",
+                                                              NA)))) %>%
+          # Remove unused metrics
+          filter(!is.na(Metric_Name_Submitted)) %>%
+          # Remove unused columns
+          select(-Question_Clean,
+                 -ReportingType,
+                 -Incl_N,
+                 -Incl_AllHosp_Rank,
+                 -Metric) %>%
+          # Rename value column for consistency
+          rename(value_rounded = value)
+        
+        # Identify Patient Experience metrics to include in Summary tab
+        pt_exp_summary_tab_metrics <- metric_mapping_summary_site %>%
+          filter(Service %in% service_input &
+                   General_Group %in% "Patient Experience") %>%
+          select(-General_Group, -Display_Order, -Metric_Unit,
+                 Service, Metric_Group, Metric_Name_Summary,
+                 Metric_Name, Metric_Name_Submitted)
+
+        # Crosswalk Patient Experience YTD data with Summary tab metrics
+        pt_exp_ytd_reformat <- left_join(pt_exp_ytd_reformat,
+                                         pt_exp_summary_tab_metrics,
+                                         by = c("Service" = "Service",
+                                            "Metric_Name_Submitted" = "Metric_Name_Submitted"))
+        
+        pt_exp_ytd_reformat <- pt_exp_ytd_reformat %>%
+          # Filter on 
+          filter(!is.na(Metric_Name_Summary) &
+                   Reporting_Month_Ref == max(Reporting_Month_Ref)) %>%
+          mutate(`Fiscal Year to Date` = ifelse(month(Reporting_Month_Ref) == 1 &
+                                                  month(Reporting_Date_Start) == 1,
+                                                format(Reporting_Month_Ref, "%b %Y"),
+                                                paste0(
+                                                  format(Reporting_Date_Start, "%b"),
+                                                  " - ",
+                                                  format(Reporting_Month_Ref, "%b %Y"),
+                                                  " Average"))) %>%
+          select(-Service,
+                 -Reporting_Date_Start,
+                 -Reporting_Date_End,
+                 -Reporting_Month_Ref,
+                 -Metric_Name_Submitted) %>%
+          relocate(value_rounded, .after = `Fiscal Year to Date`)
+
+      } else {
+        pt_exp_ytd_reformat <- NULL
+      }
+      
+                    
+      # FYTD Summary Table - for average 
+      '%!in%' <<- function(x,y)!('%in%'(x,y))
+      fytd_summary_avg <- fytd_summary_all %>%
+        # For consistency, consider do a string detect here
+        filter(Metric_Group %!in% c("Budget to Actual", "Total Revenue to Budget Variance")) %>% # Metrics that need to be summarized by sum (total)
+        mutate(`Fiscal Year to Date` = paste(`Fiscal Year to Date`," Average")) %>%
+        group_by(Site,
+                 Metric_Group,
+                 Metric_Name_Summary,
+                 Metric_Name,
+                 `Fiscal Year to Date`) %>%
+        summarise(value_rounded = mean(value_rounded, na.rm = TRUE)) %>%
+        ungroup()
+    
+      # Merge for summary 
+      # fytd_merged <- rbind(fytd_summary_total, fytd_summary_avg, pt_exp_ytd_reformat, ytd_join)
+      fytd_merged <- rbind(fytd_summary_avg, pt_exp_ytd_reformat, ytd_join) %>% distinct()
+      fytd_summary <- fytd_merged
+      # fytd_summary$Metric_Name <- NULL
+      fytd_summary <- fytd_summary %>%
+        select(-Metric_Group, -Metric_Name) %>%
+        mutate(Section = "Metrics") %>%
+        relocate(Section) %>%
+        pivot_wider(names_from = Site, values_from = value_rounded)
+
+      missing_sites <- setdiff(sites_inc, names(fytd_summary))
+      fytd_summary[missing_sites] <- NA
+      #fytd_summary$NYEE <- as.numeric(fytd_summary$NYEE)
+      
+      
+      check <- target_mapping %>% filter(Service == service_input)
+      if("Total Revenue to Budget Variance" %in% as.vector(check$Metric_Group)){
+        fytd_data_budget <- fytd_summary_all %>% filter(Metric_Name %in% c("Variance to Budget", "Budget"))  %>%
+          filter((Service == service_input) &
+                   (Metric_Group == "Total Revenue to Budget Variance") &
+                   (Metric_Name %in% c("Budget", "Variance to Budget")) & 
+                   (Reporting_Month_Ref %in%
+                      unique((fytd_period %>% 
+                                filter(Metric_Name == "Variance to Budget"))$Reporting_Month_Ref))) %>%
+          group_by(Service, Site, Metric_Group, Metric_Name) %>%
+          summarise(value_rounded = sum(value_rounded)) %>%
+          ungroup() %>%
+          select(-Service, -Metric_Group, -Metric_Name) %>%
+          mutate(Section = "Metrics", Metric_Name_Summary = "Total Revenue to Budget Variance") %>%
+          pivot_wider(names_from = "Site", values_from = "value_rounded")
+        
+        fytd_summary_all_budget_variance <-fytd_summary_all %>% filter(Metric_Name == "Variance to Budget") 
+        min_date <- min(fytd_summary_all_budget_variance$Reporting_Month_Ref)
+        max_date <- max(fytd_summary_all_budget_variance$Reporting_Month_Ref)
+        
+        fytd_data_budget <- fytd_data_budget %>% mutate(`Fiscal Year to Date` = paste0(format(min_date, "%b"), " - ", format(max_date, "%b"), " ", year(max_date), " Total"))
+        fytd_summary <- bind_rows(fytd_summary, fytd_data_budget)
+      }
+      current_summary_order <- c("Section", "Metric_Name_Summary", "Current Period", "Metric_Unit", "MSB", "MSBI", "MSH", "MSM", "MSQ", "MSW", "NYEE")
+      current_summary <- current_summary[, current_summary_order]
+      
+      # Merge FYTD and Current Period Metrics Summary 
+      metrics_summary <- merge(fytd_summary, current_summary,
+                               by = c("Section","Metric_Name_Summary"), all = TRUE)
+      
+           
+      # Format metrics based on units and remove Metric_Unit column
+      metrics_summary <- metrics_summary %>%
+        mutate(across(where(is.numeric),
+                      .fns = function(x) {
+                        ifelse(Metric_Unit %in% "Dollar",
+                               dollar(round(x)),
+                               ifelse(Metric_Unit %in% "Percent",
+                                      percent(x, 0.1),
+                                      prettyNum(round(x, digits = 1),
+                                                big.mark = ",")))
+                      }),
+               Metric_Unit = NULL)
+      
+      # Simpler code for fixing text NAs
+      # NOTE: Roll this into the above dplyr
+      metrics_summary <- metrics_summary %>%
+        mutate_all(function(x) str_replace(x,
+                                           pattern = paste("NA",
+                                                           "NaN",
+                                                           "NA%",
+                                                           "%NA",
+                                                           "NaN%",
+                                                           "$NaN",
+                                                           sep = "|"),
+                                           NA_character_))
+      
+      # Change this to dplyr logic using mutate_if or mutate_all
+      metrics_summary[is.na(metrics_summary)] <- "-"
+      
+      # Reorder rows based on Summary Tab Metrics order
+      metrics_summary <- metrics_summary %>%
+        mutate(Metric_Name_Summary = factor(Metric_Name_Summary,
+                                            levels = summary_metric_name_order,
+                                            ordered = TRUE)) %>%
+        arrange(Metric_Name_Summary) %>%
+        mutate(Metric_Name_Summary = as.character(Metric_Name_Summary))
+      
+      # Code for comparing metrics to targets and displaying statuses ------------
+      
+      
+      # Code for Status Section -----------------------------------
+      # Crosswalk Current Period Summary with metrics to be displayed in Status section
+      # current_status <- left_join(current_summary_data,
+      #                             status_section_metrics,
+      #                             by = c)
+      # Not sure if we actually need to do this anymore since we are already
+      # filtering out metrics based on whether or not they are included in the
+      # summary and site tabs and then filtering on whether or not there is a status
+      # NOTE: Revisit this after reviewing which services/metrics are shown in summary tab but not in the status section
+      
+      
+      current_status <- current_summary_data %>%
+        mutate(TestCol = paste(Metric_Group, Metric_Name),
+               Incl = TestCol %in% unique(
+                 paste(status_section_metrics$Metric_Group,
+                       status_section_metrics$Metric_Name))) %>%
+        filter(Incl) %>%
+        select(-TestCol, -Incl)
+
+      # Manually remove duplicates - this should be fixed in the repositories
+      current_status <- unique(current_status)
+      
+      current_status <- current_status %>%
+        ungroup() %>%
+        filter(!is.na(Status)) %>%
+        mutate(`Current Period` = ifelse(
+          str_detect(Premier_Reporting_Period, "/"), 
+          paste0("Rep. Pd. Ending ",
+                 Premier_Reporting_Period),
+          Premier_Reporting_Period)) %>%
+        select(Metric_Group,
+               Metric_Name_Summary,
+               `Current Period`,
+               Site,
+               Status) %>%
+        mutate(Section = "Status") %>%
+        relocate(Section) %>%
+        pivot_wider(names_from = Site,
+                    values_from = Status)
+      
+      check <- target_mapping %>% filter(Service == service_input)
+      if("Total Revenue to Budget Variance" %in% as.vector(check$Metric_Group)){
+        
+        current_month <- current_summary_data %>% filter(Metric_Name == "Variance to Budget")
+        current_month <- unique(current_month$Reporting_Month_Ref)
+        
+        budget_to_variance <- metrics_final_df %>% filter(Metric_Name %in% c("Variance to Budget", "Budget")) %>% filter(Reporting_Month_Ref == current_month) %>%
+          group_by(Service, Site, Metric_Group, Metric_Name) %>%
+          summarise(value_rounded = sum(value_rounded)) %>%
+          pivot_wider(names_from = "Metric_Name",
+                      values_from = "value_rounded") %>%
+          mutate(Target = round(`Variance to Budget`/ Budget,2),
+                 Status = ifelse(Target <= 0, "Green", ifelse(Target > 0.02, "Red", "Yellow"))) %>%
+          pivot_longer(4:5,
+                       names_to = "Summary_Metric_Name",
+                       values_to = "value_rounded") %>%
+          filter(Summary_Metric_Name == "Variance to Budget") %>%
+          ungroup()
+        
+        
+        current_period_budget <- current_summary_data %>% filter(Metric_Name_Summary == "Total Revenue to Budget Variance")
+        current_period_budget <- unique(current_period_budget$Premier_Reporting_Period)
+        
+        budget_to_variance <- budget_to_variance %>% select(-Service, -Summary_Metric_Name, -Target, -value_rounded) %>% mutate(Metric_Name_Summary = "Total Revenue to Budget Variance", 
+                                                                                                                                Section = "Status",
+                                                                                                                                `Current Period` = current_period_budget) %>% 
+          pivot_wider(names_from = "Site", values_from = "Status")
+        
+        current_status <- bind_rows(current_status, budget_to_variance)
+      }
+      
+      
+      if("Budget to Actual" %in% current_summary_data$Metric_Group) {
+        current_status_budget <- current_summary_data %>%
+          filter(Metric_Group == "Budget to Actual")
+        
+        budget_target_current <- get_budget_data(service = service_input,month_input)
+        
+        if (as.character(month_selected )%in% month_in_repo) {
+          budget_target_current <- budget_target_current %>% ungroup() %>% filter(Service %in% service_input, Month == month_selected, Metric_Name_Submitted == "Budget_Total") %>%
+            select(-Service, -Month) %>% mutate(Metric_Name_Submitted = "Budget to Actual Variance - Total")
+        } else {
+          budget_target_current <- budget_target_current %>% ungroup() %>% filter(Service %in% service_input, Month == max(Month), Metric_Name_Submitted == "Budget_Total") %>%
+            select(-Service, -Month) %>% mutate(Metric_Name_Submitted = "Budget to Actual Variance - Total")
+        }
+        
+        budget_target_current <- left_join(current_status_budget, budget_target_current) 
+        
+        budget_target_current <- budget_target_current %>% select(-Target) %>%
+          rename(Target = Value) %>%
+          mutate(Target = value_rounded/Target,
+                 Status = ifelse(Target >= 0, "Green", ifelse(Target < -0.02, "Red", "Yellow"))) %>%
+          filter(!is.na(Target)) %>%
+          mutate(Section = "Status",
+                 `Current Period` = ifelse(
+                   str_detect(Premier_Reporting_Period, "/"), 
+                   paste0("Rep. Pd. Ending ",
+                          Premier_Reporting_Period),
+                   Premier_Reporting_Period)) %>%
+          ungroup() %>%
+          select(Metric_Group, Section, Metric_Name_Summary, `Current Period`, Site, Status) %>%
+          relocate(Section) %>%
+          pivot_wider(names_from = Site,
+                      values_from = Status)
+        
+        current_status <- full_join(current_status, budget_target_current)
+        
+      }
+      
+      # Find and add any missing sites
+      missing_sites <- setdiff(sites_inc, names(current_status))
+      current_status[missing_sites] <- NA
+        
+
+      # FYTD Summary with status indicators using new structure     
+      fytd_status <- left_join(fytd_merged,
+                                metric_targets_status,
+                                by = c("Site",
+                                       "Metric_Group",
+                                       "Metric_Name"))
+      
+      # Determine status definitions for FYTD metrics
+      fytd_status <- fytd_status %>%
+        # Determine status based on status definitions
+        mutate(Status = ifelse(is.na(Target), NA,
+                               ifelse(between(value_rounded,
+                                              Green_Start,
+                                              Green_End),
+                                      "Green",
+                                      ifelse(between(value_rounded,
+                                                     Yellow_Start,
+                                                     Yellow_End),
+                                             "Yellow",
+                                             ifelse(between(value_rounded,
+                                                            Red_Start,
+                                                            Red_End),
+                                                    "Red", NA))))) %>%
+        filter(!is.na(Target)) %>%
+        mutate(Section = "Status") %>%
+        select(Section, Metric_Name_Summary, `Fiscal Year to Date`, Site, Status)
+      
+      
+      budget_target_check <- target_mapping %>%
+        select(-contains("Status")) %>%
+        filter(Target %in% c("Budget")) %>%
+        filter(Service %in% service_input) %>%
+        select(Service, Metric_Group, Metric_Name) %>%
+        distinct()
+            
+      # NOTE: Should we use a str_detect instead here so we can capture Labor and Non Labor as well?
+      if("Budget to Actual" %in% current_summary_data$Metric_Group){
+        
+        fytd_status_budget <- left_join(fytd_merged,
+                                 metric_targets_status,
+                                 by = c("Site",
+                                        "Metric_Group",
+                                        "Metric_Name"))
+        
+        fytd_status_budget <- fytd_status_budget %>%
+                              filter(Metric_Group == "Budget to Actual") %>%
+                              mutate(Service = service_input,
+                                     Metric_Name_Submitted = "Budget to Actual Variance - Total") %>%
+                              select(-value_rounded)
+        
+        
+        budget_actual <- get_budget_data(service = service_input,month_input)
+        
+        if (as.character(month_selected )%in% month_in_repo) {
+          budget_actual <- budget_actual %>% ungroup() %>% filter(Service %in% service_input, Month == month_selected, Metric_Name_Submitted == "Budget to Actual Variance - Total") %>%
+            select(-Service, -Month, -Value_ytd) %>% rename(value_rounded = Value)
+        } else {
+          budget_actual <- budget_actual %>% ungroup() %>% filter(Service %in% service_input, Month == max(Month), Metric_Name_Submitted == "Budget to Actual Variance - Total") %>%
+            select(-Service, -Month, -Value_ytd) %>% rename(value_rounded = Value)
+        }
+        fytd_status_budget <- left_join(fytd_status_budget, budget_actual)
+        
+        
+        budget_target <- get_budget_data(service = service_input,month_input)
+        
+        if (as.character(month_selected )%in% month_in_repo) {
+          budget_target <- budget_target %>% ungroup() %>% filter(Service %in% service_input, Month == month_selected, Metric_Name_Submitted == "Budget_Total") %>%
+            select(-Service, -Month, -Value) %>% mutate(Metric_Name_Submitted = "Budget to Actual Variance - Total")
+        } else {
+          budget_target <- budget_target %>% ungroup() %>% filter(Service %in% service_input, Month == max(Month), Metric_Name_Submitted == "Budget_Total") %>%
+            select(-Service, -Month, -Value) %>% mutate(Metric_Name_Submitted = "Budget to Actual Variance - Total")
+        }
+        
+        budget_to_actual_target <- left_join(fytd_status_budget, budget_target)
+        budget_to_actual_target <- budget_to_actual_target %>% select(-Target) %>%
+                                    rename(Target = Value_ytd) %>%
+          mutate(Target = value_rounded/Target,
+                 Status = ifelse(Target >= 0, "Green", ifelse(Target < -0.02, "Red", "Yellow"))) %>%
+          filter(!is.na(Target)) %>%
+          mutate(Section = "Status") %>%
+          select(Section, Metric_Name_Summary, `Fiscal Year to Date`, Site, Status)
+        
+        
+        #Calculate FYTD Budget to Actual Targets
+        # budget_to_actual_target <- metrics_final_df %>% 
+        #   filter((Service == service_input) &
+        #            (Metric_Name %in% c("Budget_Total", "Budget to Actual")) & 
+        #            (Reporting_Month_Ref %in%
+        #               unique((fytd_period %>% 
+        #                         filter(Metric_Name == "Budget to Actual"))$Reporting_Month_Ref))) %>%
+        #   group_by(Service, Site, Metric_Group, Metric_Name) %>%
+        #   summarise(value_rounded = sum(value_rounded)) %>%
+        #   pivot_wider(names_from = "Metric_Name",
+        #               values_from = "value_rounded") %>%
+        #   mutate(Target = round(`Budget to Actual`/ Budget_Total, 2),
+        #          Status = ifelse(Target >= 0, "Green", ifelse(Target < -0.02, "Red", "Yellow"))) %>%
+        #   pivot_longer(4:5,
+        #                names_to = "Summary_Metric_Name",
+        #                values_to = "value_rounded") %>%
+        #   filter(Summary_Metric_Name == "Budget to Actual") %>%
+        #   mutate(Section = "Status")
+        # 
+        # budget_to_actual_target <- budget_to_actual_target[,c("Section", "Summary_Metric_Name", "Site", "Status")]
+        # budget_to_actual_target$`Fiscal Year to Date` <-
+        #   fytd_status$`Fiscal Year to Date`[match(budget_to_actual_target$Summary_Metric_Name, fytd_status$Metric_Name_Summary)]
+      }else{
+        budget_to_actual_target <- NULL
+      }
+      check <- target_mapping %>% filter(Service == service_input)
+      if("Total Revenue to Budget Variance" %in% as.vector(check$Metric_Group)){
+        #Calculate FYTD Budget to Actual Targets
+        variance_to_budget_target <- metrics_final_df %>% 
+          filter((Service == service_input) &
+                   (Metric_Group == "Total Revenue to Budget Variance") &
+                   (Metric_Name %in% c("Budget", "Variance to Budget")) & 
+                   (Reporting_Month_Ref %in%
+                      unique((fytd_period %>% 
+                                filter(Metric_Name == "Variance to Budget"))$Reporting_Month_Ref))) %>%
+          group_by(Service, Site, Metric_Group, Metric_Name) %>%
+          summarise(value_rounded = sum(value_rounded)) %>%
+          pivot_wider(names_from = "Metric_Name",
+                      values_from = "value_rounded") %>%
+          mutate(Target = round(`Variance to Budget`/ Budget,2),
+                 Status = ifelse(Target <= 0, "Green", ifelse(Target > 0.02, "Red", "Yellow"))) %>%
+          pivot_longer(4:5,
+                       names_to = "Summary_Metric_Name",
+                       values_to = "value_rounded") %>%
+          filter(Summary_Metric_Name == "Variance to Budget") %>%
+          mutate(Section = "Status")
+        
+        
+        
+        #Calculate FYTD Budget to Actual Targets
+        variance_to_budget_target_fytd <- metrics_final_df %>% 
+          filter((Service == service_input) &
+                   (Metric_Group == "Total Revenue to Budget Variance") &
+                   (Metric_Name %in% c("Budget", "Variance to Budget")) & 
+                   (Reporting_Month_Ref %in%
+                      unique((fytd_period %>% 
+                                filter(Metric_Name == "Variance to Budget"))$Reporting_Month_Ref)))
+        
+        
+        min_date <- min(variance_to_budget_target_fytd$Reporting_Month_Ref)
+        max_date <- max(variance_to_budget_target_fytd$Reporting_Month_Ref)
+        
+        variance_to_budget_target <- variance_to_budget_target[,c("Section", "Summary_Metric_Name", "Site", "Status")]
+        variance_to_budget_target <- variance_to_budget_target %>% mutate(`Fiscal Year to Date` = paste0(format(min_date, "%b"), " - ", format(max_date, "%b"), " ", year(max_date), " Total"))
+        variance_to_budget_target <- variance_to_budget_target %>% rename(Metric_Name_Summary = Summary_Metric_Name)
+        variance_to_budget_target <- variance_to_budget_target %>% mutate(Metric_Name_Summary = ifelse(Metric_Name_Summary == "Variance to Budget", "Total Revenue to Budget Variance", Metric_Name_Summary))
+        #variance_to_budget_target$`Fiscal Year to Date` <- fytd_status$`Fiscal Year to Date`[match(variance_to_budget_target$Metric_Name_Summary, fytd_status$Metric_Name_Summary)]
+      } else{
+        variance_to_budget_target <- NULL
+      }
+      
+      
+      # # Merge with rest of the metrics 
+      # Merge FYTD metrics with budget metrics
+      fytd_status <- bind_rows(fytd_status,
+                               budget_to_actual_target,
+                               variance_to_budget_target)
+
+      # Pivot wider for dashboard format
+      fytd_status <- fytd_status %>%
+        pivot_wider(names_from = Site, values_from = Status)        
+      
+      # Identify missing sites and populate columns
+      missing_sites <- setdiff(sites_inc, names(fytd_status))
+      fytd_status[missing_sites] <- NA
+
+      
+      # Merge FYTD and Current Period Targets
+      targets_summary <- left_join(fytd_status,
+                                   current_status,
+                                   by = c("Section", "Metric_Name_Summary"))
+
+      # Remove Metric_Group column
+      targets_summary <- targets_summary %>%
+        select(-Metric_Group)
+      
+      # Use summary_metrics_name_order vector from early in this section to reorder rows
+      targets_summary <- targets_summary[
+        order(factor(targets_summary$Metric_Name_Summary,
+                     levels = summary_metric_name_order,
+                     ordered = TRUE)), ]
+      
+      targets_summary <- as.data.frame(targets_summary)
+
+      # Create traffic lights for the metric statuses
+      targets_summary <- targets_summary %>%
+        mutate(across(.cols = everything(),
+                      .fns = function(x) {
+                        ifelse(x %in% "Red", paste0('<div style="text-align:center">',
+                                                    '<span style="color:',
+                                                    c("red"),'">',
+                                                    fa('fas fa-circle'),
+                                                    '</span>',
+                                                    '</div>'),
+                               ifelse(x %in% "Yellow", 
+                                      paste0('<div style="text-align:center">',
+                                             '<span style="color:',
+                                             c("yellow"),'">',
+                                             fa('fas fa-circle'),
+                                             '</span>',
+                                             '</div>'),
+                                      ifelse(x %in% "Green",
+                                             paste0('<div style="text-align:center">',
+                                                    '<span style="color:',
+                                                    c("green"),'">',
+                                                    fa('fas fa-circle'),
+                                                    '</span>',
+                                                    '</div>'),
+                                             ifelse(is.na(x),
+                                                    paste0('<div style="text-align:center">',
+                                                           '-',
+                                                           '</div>'),
+                                                    x))))
+                      }
+        ))
+      #metrics_summary <- metrics_summary %>% filter(!(Metric_Name_Summary == "Total Revenue to Budget Variance"))
+      
+      summary_tab_tb <- rbind(metrics_summary, targets_summary) # Don't think we need to specify which columns anymore#2[,1:18])
+      # Why do we need this? There is no NYEE, there is NYEE.x and NYEE.y
+      #summary_tab_tb$NYEE <- NULL
+      
+      # Rename Metric_Name_Summary as Metric_Name
+      summary_tab_tb <- summary_tab_tb %>%
+        rename(Metric_Name = Metric_Name_Summary)
+      
+      colnames(summary_tab_tb) <- gsub("\\..*", " ", colnames(summary_tab_tb))
+      colnames(summary_tab_tb) <- gsub("_", " ", colnames(summary_tab_tb), fixed = TRUE)
+      
+      ## Create table output headers
+      header_above <- c(" " = 2, "ytd_header" = 7, " " = 1, "current_header" = 7)
+      names(header_above) <- c(" ", "Year to Date", " ", "Current Period")
+      
+      kable_col_names <- colnames(summary_tab_tb)[2:length(summary_tab_tb)]
+     
+      
+      if(service_input == "Imaging"){
+          ir_start <- which(summary_tab_tb$`Metric Name` == "Outpatient Cancellations (All)")[1]
+          dr_start <- which(summary_tab_tb$`Metric Name` == "ED Head CT Without Contrast (Exam Code CTNHEAD0) - Ordered to Scan Completed, % <= 60m")[1]
+        
+          kable(summary_tab_tb[,2:length(summary_tab_tb)], escape = FALSE,
+                col.names = kable_col_names) %>%
+            pack_rows(index = table(summary_tab_tb$Section), label_row_css = "background-color: #212070; color: white;") %>%
+            kable_styling(bootstrap_options = c("hover","bordered","striped"), full_width = FALSE,
+                          position = "center", row_label_position = "c", font_size = 16) %>%
+            # add_header_above(header_above,
+            #                  font_size = 16, bold = TRUE, color = "white", background = c("white", "#d80b8c", "white", "#00AEEF")) %>%
+            row_spec(0,  background = "#212070", color = "white") %>%
+            column_spec(1, bold = TRUE) %>%
+            column_spec(c(2, 10), italic = TRUE) %>%
+            column_spec(3:9, background = "#fee7f5") %>%
+            column_spec(11:17, background = "#E6F8FF") %>%
+            group_rows(group_label = "Interventional Radiology", indent = FALSE,
+                       start_row = ir_start,
+                       end_row = dr_start-1,
+                       label_row_css = "background-color: #212070; color: white;") %>%
+            group_rows(group_label = "Diagnostic Radiology", indent = FALSE,
+                       start_row = dr_start,
+                       end_row = (dr_start + 1),
+                       label_row_css = "background-color: #212070; color: white;")
+      }else{
+        kable(summary_tab_tb[,2:length(summary_tab_tb)], escape = FALSE,
+              col.names = kable_col_names) %>%
+          pack_rows(index = table(summary_tab_tb$Section), label_row_css = "background-color: #212070; color: white;") %>%
+          kable_styling(bootstrap_options = c("hover","bordered","striped"), full_width = FALSE,
+                        position = "center", row_label_position = "c", font_size = 16) %>%
+          # add_header_above(header_above,
+          #                  font_size = 16, bold = TRUE, color = "white", background = c("white", "#d80b8c", "white", "#00AEEF")) %>%
+          row_spec(0,  background = "#212070", color = "white") %>%
+          column_spec(1, bold = TRUE) %>%
+          column_spec(c(2, 10), italic = TRUE) %>%
+          column_spec(3:9, background = "#fee7f5") %>%
+          column_spec(11:17, background = "#E6F8FF") 
+      }
+      
+```
+
+```{r echo = FALSE}
+  library(blastula)
+test_message <- prepare_test_message()
+
+test_message %>%
+  smtp_send(
+    from = "oao@mssm.edu",
+    to = "armando.villegas@mssm.edu",
+    subject = "Testing the `smtp_send()` function",
+    credentials = creds_file(file = "email_creds")
+  )
+
+
+```

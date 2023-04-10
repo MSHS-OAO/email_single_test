@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"> <!-- utf-8 works for most cases -->
+<meta name="viewport" content="width=device-width"> <!-- Forcing initial-scale shouldn't be necessary -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- Use the latest (edge) version of IE rendering engine -->
+<meta name="x-apple-disable-message-reformatting">  <!-- Disable auto-scale in iOS 10 Mail entirely -->
+<meta name="format-detection" content="telephone=no,address=no,email=no,date=no,url=no"> <!-- Tell iOS not to automatically link certain text strings. -->
+<meta name="color-scheme" content="light">
+<meta name="supported-color-schemes" content="light">
+<!-- What it does: Makes background images in 72ppi Outlook render at correct size. -->
+<!--[if gte mso 9]>
+<xml>
+<o:OfficeDocumentSettings>
+<o:AllowPNG/>
+<o:PixelsPerInch>96</o:PixelsPerInch>
+</o:OfficeDocumentSettings>
+</xml>
+<![endif]-->
+<title>This is a test Email</title>
+<style>
+body {
+font-family: Helvetica, sans-serif;
+font-size: 14px;
+}
+.content {
+background-color: white;
+}
+.content .message-block {
+margin-bottom: 24px;
+}
+.header .message-block, .footer message-block {
+margin-bottom: 12px;
+}
+img {
+max-width: 100%;
+}
+@media only screen and (max-width: 767px) {
+.container {
+width: 100%;
+}
+.articles, .articles tr, .articles td {
+display: block;
+width: 100%;
+}
+.article {
+margin-bottom: 24px;
+}
+}
+</style>
+</head>
+<body style="background-color:#f6f6f6;font-family:Helvetica, sans-serif;color:#222;margin:0;padding:0;">
+<table width="85%" align="center" class="container" style="max-width: 1000px;">
+<tr>
+<td style="padding:24px;">
+<div class="header" style="font-family:Helvetica, sans-serif;color:#999999;font-size:12px;font-weight:normal;margin:0 0 24px 0;text-align:center;">
+</div>
+<table width="100%" class="content" style="background-color:white;">
+<tr>
+<td style="padding:12px;"><p>Hello this is a test email from
+Rconnect</p>
+<pre><code>## `summarise()` has grouped output by &#39;Metric_Group&#39;, &#39;Metric_Name_Summary&#39;,
+## &#39;Metric_Name&#39;, &#39;Reporting_Month_Ref&#39;. You can override using the `.groups`
+## argument.
+## Joining, by = c(&quot;Service&quot;, &quot;Metric_Name_Submitted&quot;)
+## `summarise()` has grouped output by &#39;Site&#39;, &#39;Metric_Group&#39;,
+## &#39;Metric_Name_Summary&#39;, &#39;Metric_Name&#39;. You can override using the `.groups`
+## argument.
+## `summarise()` has grouped output by &#39;Site&#39;, &#39;Metric_Group&#39;,
+## &#39;Metric_Name_Summary&#39;, &#39;Metric_Name&#39;. You can override using the `.groups`
+## argument.
+## Joining, by = c(&quot;Metric_Name_Submitted&quot;, &quot;Site&quot;)
+## Joining, by = c(&quot;Section&quot;, &quot;Metric_Group&quot;, &quot;Metric_Name_Summary&quot;, &quot;Current
+## Period&quot;, &quot;MSQ&quot;, &quot;MSW&quot;, &quot;MSBI&quot;, &quot;MSM&quot;, &quot;MSH&quot;, &quot;MSB&quot;)
+## Joining, by = c(&quot;Site&quot;, &quot;Metric_Name_Submitted&quot;)
+## Joining, by = c(&quot;Site&quot;, &quot;Metric_Name_Submitted&quot;)</code></pre>
+<table class="table table-hover table-bordered table-striped" style="font-size: 16px; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;color: white !important;background-color: #212070 !important;">
+Metric Name
+</th>
+<th style="text-align:left;color: white !important;background-color: #212070 !important;">
+Fiscal Year to Date
+</th>
+<th style="text-align:left;color: white !important;background-color: #212070 !important;">
+MSB
+</th>
+<th style="text-align:left;color: white !important;background-color: #212070 !important;">
+MSBI
+</th>
+<th style="text-align:left;color: white !important;background-color: #212070 !important;">
+MSH
+</th>
+<th style="text-align:left;color: white !important;background-color: #212070 !important;">
+MSM
+</th>
+<th style="text-align:left;color: white !important;background-color: #212070 !important;">
+MSQ
+</th>
+<th style="text-align:left;color: white !important;background-color: #212070 !important;">
+MSW
+</th>
+<th style="text-align:left;color: white !important;background-color: #212070 !important;">
+NYEE
+</th>
+<th style="text-align:left;color: white !important;background-color: #212070 !important;">
+Current Period
+</th>
+<th style="text-align:left;color: white !important;background-color: #212070 !important;">
+MSB
+</th>
+<th style="text-align:left;color: white !important;background-color: #212070 !important;">
+MSBI
+</th>
+<th style="text-align:left;color: white !important;background-color: #212070 !important;">
+MSH
+</th>
+<th style="text-align:left;color: white !important;background-color: #212070 !important;">
+MSM
+</th>
+<th style="text-align:left;color: white !important;background-color: #212070 !important;">
+MSQ
+</th>
+<th style="text-align:left;color: white !important;background-color: #212070 !important;">
+MSW
+</th>
+<th style="text-align:left;color: white !important;background-color: #212070 !important;">
+NYEE
+</th>
+</tr>
+</thead>
+<tbody>
+<tr grouplength="9">
+<td colspan="17" style="background-color: #212070; color: white;">
+<strong>Metrics</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;font-weight: bold;" indentlevel="1">
+Productivity Index
+</td>
+<td style="text-align:left;font-style: italic;">
+FYTD Ending 12/31/2022 Average
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+94.1%
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+107.3%
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+101.0%
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+100.3%
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+74.4%
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+88.9%
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+<ul>
+<li></td>
+<td style="text-align:left;font-style: italic;">
+Rep. Pd. Ending 12/31/2022
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+95.0%
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+113.5%
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+105.3%
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+99.0%
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+78.2%
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+91.0%
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+<ul>
+<li></td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;font-weight: bold;" indentlevel="1">
+Overtime Hours - % (Premier)
+</td>
+<td style="text-align:left;font-style: italic;">
+Jan - Dec 2022 Average
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+3.1%
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+8.4%
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+15.2%
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+9.1%
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+7.3%
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+12.3%
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+<ul>
+<li></td>
+<td style="text-align:left;font-style: italic;">
+Dec 2022
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+6.5%
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+9.3%
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+14.8%
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+9.7%
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+6.0%
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+14.4%
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+<ul>
+<li></td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;font-weight: bold;" indentlevel="1">
+Overtime Dollars - % (Finance)
+</td>
+<td style="text-align:left;font-style: italic;">
+Jan - Feb 2023 Average
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+10.8%
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+12.0%
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+20.3%
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+11.8%
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+11.8%
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+16.7%
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+<ul>
+<li></td>
+<td style="text-align:left;font-style: italic;">
+Feb 2023
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+10.2%
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+13.7%
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+21.7%
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+16.1%
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+10.8%
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+17.2%
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+<ul>
+<li></td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;font-weight: bold;" indentlevel="1">
+Actual Worked FTE (Premier)
+</td>
+<td style="text-align:left;font-style: italic;">
+FYTD Ending 12/31/2022 Average
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+9.8
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+40.9
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+183.5
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+41.4
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+27.2
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+38.7
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+<ul>
+<li></td>
+<td style="text-align:left;font-style: italic;">
+Rep. Pd. Ending 12/31/2022
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+9.7
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+38.5
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+178
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+41.9
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+25.9
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+37.7
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+<ul>
+<li></td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;font-weight: bold;" indentlevel="1">
+Budget to Actual
+</td>
+<td style="text-align:left;font-style: italic;">
+Jan - Feb 2023 Total
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+$110,526
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+$305,218
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+$2,060,483
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+-$68,816
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+-$54,460
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+$119,230
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+<ul>
+<li></td>
+<td style="text-align:left;font-style: italic;">
+Feb 2023
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+$176,282
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+$138,188
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+$474,757
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+-$26,786
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+-$1,388
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+-$111,665
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+<ul>
+<li></td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;font-weight: bold;" indentlevel="1">
+% of Critical PM’s Completed on Time
+</td>
+<td style="text-align:left;font-style: italic;">
+Jan - Feb 2023 Average
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+100.0%
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+100.0%
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+100.0%
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+100.0%
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+100.0%
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+100.0%
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+100.0%
+</td>
+<td style="text-align:left;font-style: italic;">
+Feb 2023
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+100.0%
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+100.0%
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+100.0%
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+100.0%
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+100.0%
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+100.0%
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+100.0%
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;font-weight: bold;" indentlevel="1">
+Number of Work Orders Created with a Life Safety Priority
+</td>
+<td style="text-align:left;font-style: italic;">
+Jan - Feb 2023 Average
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+5
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+18
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+119
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+77
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+17.5
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+2.5
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+4
+</td>
+<td style="text-align:left;font-style: italic;">
+Feb 2023
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+1
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+15
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+203
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+154
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+34
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+3
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+7
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;font-weight: bold;" indentlevel="1">
+Work Order Completion Rate
+</td>
+<td style="text-align:left;font-style: italic;">
+Jan - Feb 2023 Average
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+98.0%
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+96.0%
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+96.6%
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+91.0%
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+90.7%
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+93.0%
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+94.2%
+</td>
+<td style="text-align:left;font-style: italic;">
+Feb 2023
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+99.0%
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+97.0%
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+100.0%
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+88.0%
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+87.2%
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+93.3%
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+91.7%
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;font-weight: bold;" indentlevel="1">
+EOC/Patient Care Work Order Completion Rate
+</td>
+<td style="text-align:left;font-style: italic;">
+Jan - Feb 2023 Average
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+89.0%
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+97.5%
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+94.8%
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+98.0%
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+100.0%
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+96.9%
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+78.6%
+</td>
+<td style="text-align:left;font-style: italic;">
+Feb 2023
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+95.0%
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+100.0%
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+94.1%
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+99.0%
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+100.0%
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+97.8%
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+100.0%
+</td>
+</tr>
+<tr grouplength="4">
+<td colspan="17" style="background-color: #212070; color: white;">
+<strong>Status</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;font-weight: bold;" indentlevel="1">
+Overtime Hours - % (Premier)
+</td>
+<td style="text-align:left;font-style: italic;">
+Jan - Dec 2022 Average
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+<div style="text-align:center">
+<span style="color:green"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+<div style="text-align:center">
+<span style="color:yellow"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+<div style="text-align:center">
+<span style="color:red"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+<div style="text-align:center">
+<span style="color:yellow"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+<div style="text-align:center">
+<span style="color:green"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+<div style="text-align:center">
+<span style="color:red"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+<div style="text-align:center">
+-
+</div>
+</td>
+<td style="text-align:left;font-style: italic;">
+Dec 2022
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+<div style="text-align:center">
+<span style="color:yellow"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+<div style="text-align:center">
+<span style="color:yellow"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+<div style="text-align:center">
+<span style="color:red"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+<div style="text-align:center">
+<span style="color:yellow"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+<div style="text-align:center">
+<span style="color:green"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+<div style="text-align:center">
+<span style="color:red"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+<div style="text-align:center">
+-
+</div>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;font-weight: bold;" indentlevel="1">
+Overtime Dollars - % (Finance)
+</td>
+<td style="text-align:left;font-style: italic;">
+Jan - Feb 2023 Average
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+<div style="text-align:center">
+<span style="color:yellow"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+<div style="text-align:center">
+<span style="color:red"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+<div style="text-align:center">
+<span style="color:red"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+<div style="text-align:center">
+<span style="color:yellow"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+<div style="text-align:center">
+<span style="color:yellow"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+<div style="text-align:center">
+<span style="color:red"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+<div style="text-align:center">
+-
+</div>
+</td>
+<td style="text-align:left;font-style: italic;">
+Feb 2023
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+<div style="text-align:center">
+<span style="color:yellow"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+<div style="text-align:center">
+<span style="color:red"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+<div style="text-align:center">
+<span style="color:red"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+<div style="text-align:center">
+<span style="color:red"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+<div style="text-align:center">
+<span style="color:yellow"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+<div style="text-align:center">
+<span style="color:red"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+<div style="text-align:center">
+-
+</div>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;font-weight: bold;" indentlevel="1">
+Budget to Actual
+</td>
+<td style="text-align:left;font-style: italic;">
+Jan - Feb 2023 Total
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+<div style="text-align:center">
+<span style="color:green"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+<div style="text-align:center">
+<span style="color:green"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+<div style="text-align:center">
+<span style="color:green"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+<div style="text-align:center">
+<span style="color:yellow"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+<div style="text-align:center">
+<span style="color:yellow"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+<div style="text-align:center">
+<span style="color:red"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+<div style="text-align:center">
+-
+</div>
+</td>
+<td style="text-align:left;font-style: italic;">
+Feb 2023
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+<div style="text-align:center">
+<span style="color:green"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+<div style="text-align:center">
+<span style="color:green"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+<div style="text-align:center">
+<span style="color:green"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+<div style="text-align:center">
+<span style="color:yellow"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+<div style="text-align:center">
+<span style="color:yellow"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+<div style="text-align:center">
+<span style="color:red"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+<div style="text-align:center">
+-
+</div>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;font-weight: bold;" indentlevel="1">
+Work Order Completion Rate
+</td>
+<td style="text-align:left;font-style: italic;">
+Jan - Feb 2023 Average
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+<div style="text-align:center">
+<span style="color:green"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+<div style="text-align:center">
+<span style="color:green"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+<div style="text-align:center">
+<span style="color:green"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+<div style="text-align:center">
+<span style="color:green"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+<div style="text-align:center">
+<span style="color:green"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+<div style="text-align:center">
+<span style="color:green"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;background-color: #fee7f5 !important;">
+<div style="text-align:center">
+<span style="color:green"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;font-style: italic;">
+Feb 2023
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+<div style="text-align:center">
+<span style="color:green"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+<div style="text-align:center">
+<span style="color:green"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+<div style="text-align:center">
+<span style="color:green"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+<div style="text-align:center">
+<span style="color:yellow"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+<div style="text-align:center">
+<span style="color:yellow"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+<div style="text-align:center">
+<span style="color:green"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+<td style="text-align:left;background-color: #E6F8FF !important;">
+<div style="text-align:center">
+<span style="color:green"><svg aria-hidden="true" role="img" viewbox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z"></path></svg></span>
+</div>
+</td>
+</tr>
+</tbody>
+</table></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></td>
+</tr>
+</table>
+<div class="footer" style="font-family:Helvetica, sans-serif;color:#999999;font-size:12px;font-weight:normal;margin:24px 0 0 0;">
+</div>
+</td>
+</tr>
+</table>
+</body>
+</html>
