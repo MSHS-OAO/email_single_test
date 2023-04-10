@@ -3074,38 +3074,6 @@
         "Built": "R 4.2.1; x86_64-pc-linux-gnu; 2022-10-03 16:09:12 UTC; unix"
       }
     },
-    "openxlsx": {
-      "Source": "CRAN",
-      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2022-10-04",
-      "description": {
-        "Type": "Package",
-        "Package": "openxlsx",
-        "Title": "Read, Write and Edit xlsx Files",
-        "Version": "4.2.5.1",
-        "Date": "2022-10-24",
-        "Authors@R": "\n    c(person(given = \"Philipp\",\n             family = \"Schauberger\",\n             role = c(\"aut\", \"cre\"),\n             email = \"philipp@schauberger.co.at\"),\n      person(given = \"Alexander\",\n             family = \"Walker\",\n             role = \"aut\",\n             email = \"Alexander.Walker1989@gmail.com\"),\n      person(given = \"Luca\",\n             family = \"Braglia\",\n             role = \"ctb\"),\n      person(given = \"Joshua\",\n             family = \"Sturm\",\n             role = \"ctb\"),\n      person(given = \"Jan Marvin\",\n             family = \"Garbuszus\",\n             role = \"ctb\",\n             email = \"jan.garbuszus@ruhr-uni-bochum.de\"),\n      person(given = \"Jordan Mark\",\n             family = \"Barbone\",\n             role = \"ctb\",\n             email = \"jmbarbone@gmail.com\",\n             comment = c(ORCID = \"0000-0001-9788-3628\")))",
-        "Description": "Simplifies the creation of Excel .xlsx files by providing a\n    high level interface to writing, styling and editing worksheets.\n    Through the use of 'Rcpp', read/write times are comparable to the\n    'xlsx' and 'XLConnect' packages with the added benefit of removing the\n    dependency on Java.",
-        "License": "MIT + file LICENSE",
-        "URL": "https://ycphs.github.io/openxlsx/index.html,\nhttps://github.com/ycphs/openxlsx",
-        "BugReports": "https://github.com/ycphs/openxlsx/issues",
-        "Depends": "R (>= 3.3.0)",
-        "Imports": "grDevices, methods, Rcpp, stats, stringi, utils, zip",
-        "Suggests": "knitr, rmarkdown, roxygen2, testthat",
-        "LinkingTo": "Rcpp",
-        "VignetteBuilder": "knitr",
-        "Encoding": "UTF-8",
-        "Language": "en-US",
-        "RoxygenNote": "7.1.2",
-        "Collate": "'CommentClass.R' 'HyperlinkClass.R' 'RcppExports.R'\n'class_definitions.R' 'StyleClass.R' 'WorkbookClass.R'\n'asserts.R' 'baseXML.R' 'borderFunctions.R' 'build_workbook.R'\n'chartsheet_class.R' 'conditional_formatting.R'\n'data-fontSizeLookupTables.R' 'helperFunctions.R'\n'loadWorkbook.R' 'onUnload.R' 'openXL.R' 'openxlsx-package.R'\n'openxlsx.R' 'openxlsxCoerce.R' 'readWorkbook.R'\n'sheet_data_class.R' 'utils.R' 'workbook_column_widths.R'\n'workbook_read_workbook.R' 'workbook_write_data.R'\n'worksheet_class.R' 'wrappers.R' 'writeData.R'\n'writeDataTable.R' 'writexlsx.R' 'zzz.R'",
-        "NeedsCompilation": "yes",
-        "Packaged": "2022-10-24 12:46:13 UTC; ripley",
-        "Author": "Philipp Schauberger [aut, cre],\n  Alexander Walker [aut],\n  Luca Braglia [ctb],\n  Joshua Sturm [ctb],\n  Jan Marvin Garbuszus [ctb],\n  Jordan Mark Barbone [ctb] (<https://orcid.org/0000-0001-9788-3628>)",
-        "Maintainer": "Philipp Schauberger <philipp@schauberger.co.at>",
-        "Repository": "CRAN",
-        "Date/Publication": "2022-10-24 12:57:15 UTC",
-        "Built": "R 4.2.1; x86_64-pc-linux-gnu; 2022-12-14 17:17:20 UTC; unix"
-      }
-    },
     "packcircles": {
       "Source": "CRAN",
       "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2022-10-04",
@@ -5429,30 +5397,6 @@
         "Built": "R 4.2.1; x86_64-pc-linux-gnu; 2022-10-03 16:07:44 UTC; unix"
       }
     },
-    "zip": {
-      "Source": "CRAN",
-      "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2022-10-04",
-      "description": {
-        "Package": "zip",
-        "Title": "Cross-Platform 'zip' Compression",
-        "Version": "2.2.1",
-        "Author": "Gábor Csárdi, Kuba Podgórski, Rich Geldreich",
-        "Maintainer": "Gábor Csárdi <csardi.gabor@gmail.com>",
-        "Description": "Cross-Platform 'zip' Compression Library. A replacement\n    for the 'zip' function, that does not require any additional\n    external tools on any platform.",
-        "License": "MIT + file LICENSE",
-        "URL": "https://github.com/r-lib/zip#readme",
-        "BugReports": "https://github.com/r-lib/zip/issues",
-        "RoxygenNote": "7.2.1.9000",
-        "Config/testthat/edition": "3",
-        "Suggests": "covr, processx, R6, testthat, withr",
-        "Encoding": "UTF-8",
-        "NeedsCompilation": "yes",
-        "Packaged": "2022-09-08 09:33:32 UTC; gaborcsardi",
-        "Repository": "CRAN",
-        "Date/Publication": "2022-09-08 10:20:02 UTC",
-        "Built": "R 4.2.1; x86_64-pc-linux-gnu; 2022-10-03 16:15:21 UTC; unix"
-      }
-    },
     "zoo": {
       "Source": "CRAN",
       "Repository": "https://hso-packagemanager.mssm.edu/prod-cran/__linux__/focal/2022-10-04",
@@ -5492,7 +5436,7 @@
       "checksum": "7867c79ed9cb753721b247029a4f0629"
     },
     "main_email.Rmd": {
-      "checksum": "987b9b84d9e6361c231d623b97a32eec"
+      "checksum": "d047f1cad3a2906a480b040af0fdf961"
     }
   },
   "users": null
