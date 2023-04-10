@@ -85,12 +85,12 @@ suppressMessages({
 })
 source("Functions/mdf_from_db.R")
 source("Functions/get_budget_data.R")
-dsn <- "OAO Cloud DB Production"
-conn <- dbConnect(odbc(), dsn)
-high_level_order <- c("Premier", "Budget", "Operational", "Patient Experience")
-sites_inc <- c("MSB","MSBI","MSH","MSM","MSQ","MSW","NYEE")
+dsn <<- "OAO Cloud DB Production"
+conn <<- dbConnect(odbc(), dsn)
+high_level_order <<- c("Premier", "Budget", "Operational", "Patient Experience")
+sites_inc <<- c("MSB","MSBI","MSH","MSM","MSQ","MSW","NYEE")
 
-target_mapping <- tbl(conn, "BSC_TARGET_STATUS") %>% collect() %>%
+target_mapping <<- tbl(conn, "BSC_TARGET_STATUS") %>% collect() %>%
                   rename(Service = SERVICE,
                          Site = SITE,
                          Metric_Group = METRIC_GROUP,
@@ -107,7 +107,7 @@ target_mapping <- tbl(conn, "BSC_TARGET_STATUS") %>% collect() %>%
                          Red_Start = RED_START,
                          Red_End = RED_END)
 
-metric_mapping_database <- tbl(conn, "BSC_MAPPING_TABLE") %>% collect() %>%
+metric_mapping_database <<- tbl(conn, "BSC_MAPPING_TABLE") %>% collect() %>%
                             rename(Service = SERVICE,
                                    General_Group = GENERAL_GROUP,
                                    Metric_Group = METRIC_GROUP,
@@ -119,7 +119,7 @@ metric_mapping_database <- tbl(conn, "BSC_MAPPING_TABLE") %>% collect() %>%
                                    Display_Order = DISPLAY_ORDER
                                    )
 
-metric_mapping_summary_site <- metric_mapping_database %>%
+metric_mapping_summary_site <<- metric_mapping_database %>%
   filter(Reporting_Tab %in% "Summary and Site") %>%
   select(-Reporting_Tab) %>%
   mutate(General_Group = factor(General_Group,
@@ -128,7 +128,7 @@ metric_mapping_summary_site <- metric_mapping_database %>%
   arrange(Service, General_Group, Display_Order) %>%
   mutate(General_Group = as.character(General_Group))
 
-target_mapping_analysis <- target_mapping %>%
+target_mapping_analysis <<- target_mapping %>%
   select(-contains("Status")) %>%
   filter(!(Target %in% c("Budget"))) %>%
   mutate_at(vars(contains(c("Target", "_Start", "_End"))), as.numeric) %>%
@@ -137,7 +137,7 @@ target_mapping_analysis <- target_mapping %>%
 
 dbDisconnect(conn)
 
-budget_to_actual_summary_table_metrics <- c("Budget to Actual Variance - Non Labor (Monthly)",
+budget_to_actual_summary_table_metrics <<- c("Budget to Actual Variance - Non Labor (Monthly)",
                                             "Budget to Actual Variance - Total (Monthly)",
                                             "Budget to Actual Variance - Labor (Monthly)",
                                             "Budget to Actual Variance - Non Labor (YTD)",
